@@ -9,7 +9,11 @@ const blogSchema = new mongoose.Schema({
 
     country: {
         type: String,
-        required: true
+        
+    },
+    city: {
+        type: String,
+        
     },
 
     category: {
@@ -44,7 +48,7 @@ apply:{
     },
  website: {
   type: String,
-  required: true,
+ 
 },
 
     photo: {

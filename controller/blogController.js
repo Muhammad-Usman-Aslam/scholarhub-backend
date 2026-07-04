@@ -83,6 +83,7 @@ const blogAddData = async (req, res) => {
     const {
       title,
       country,
+      city,
       category,
       description,
       benefit,
@@ -98,6 +99,7 @@ const blogAddData = async (req, res) => {
     const data = new BlogModel({
       title,
       country,
+      city,
       category,
       description,
       benefit,
@@ -130,10 +132,7 @@ const blogAddData = async (req, res) => {
   }
 };
 
-// ======================
 // Get All Blogs
-// ======================
-
 const blogGetData = async (req, res) => {
   try {
     const blogs = await BlogModel.find().select("-photo");
@@ -143,11 +142,7 @@ const blogGetData = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
-
-// ======================
 // Get Blog Photo
-// ======================
-
 const blogGetPhoto = async (req, res) => {
   const { id } = req.params;
 
@@ -172,9 +167,7 @@ const blogGetPhoto = async (req, res) => {
   }
 };
 
-// ======================
 // Get Single Blog
-// ======================
 
 const getSingleBlog = async (req, res) => {
   try {
@@ -195,11 +188,7 @@ const getSingleBlog = async (req, res) => {
     });
   }
 };
-
-// ======================
 // Search Blogs
-// ======================
-
 const searchBlogs = async (req, res) => {
   try {
     const keyword = req.query.keyword?.trim();
