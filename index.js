@@ -16,47 +16,45 @@ const subscriberRouter = require("./router/subscriberRouter");
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
-// const MONGO_URI = process.env.MONGO_URI?.trim();
-// let isConnected = false;
+MongoDB Connection
+const MONGO_URI = process.env.MONGO_URI?.trim();
+let isConnected = false;
 
-// async function connectToMongoDB() {
-//     if (isConnected) return;
+async function connectToMongoDB() {
+    if (isConnected) return;
 
-//     if (!MONGO_URI) {
-//         throw new Error("Missing MONGO_URI environment variable");
-//     }
+    if (!MONGO_URI) {
+        throw new Error("Missing MONGO_URI environment variable");
+    }
 
-//     try {
-//         await mongoose.connect(MONGO_URI);
+    try {
+        await mongoose.connect(MONGO_URI);
 
-//         isConnected = true;
-//         console.log("✅ MongoDB Connected Successfully");
-//     } catch (error) {
-//         console.error("❌ MongoDB Connection Error:", error.message);
-//         throw error;
-//     }
-// }
+        isConnected = true;
+        console.log("✅ MongoDB Connected Successfully");
+    } catch (error) {
+        console.error("❌ MongoDB Connection Error:", error.message);
+        throw error;
+    }
+}
 
 // Connect before every request (only first request connects)
-// app.use(async (req, res, next) => {
-//     try {
-//         if (!isConnected) {
-//             await connectToMongoDB();
-//         }
-//         next();
-//     } catch (error) {
-//         return res.status(500).json({
-//             success: false,
-//             message: "Database connection failed",
-//             error: error.message,
-//         });
-//     }
-// });
+app.use(async (req, res, next) => {
+    try {
+        if (!isConnected) {
+            await connectToMongoDB();
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Database connection failed",
+            error: error.message,
+        });
+    }
+});
 
-mongoose.connect(MONGO_URI)
-.then(()=> console.log("Connected successfully "))
-.catch((err)=> console.log(err.message))
+
 
 // Routes
 app.use("/api", blogRoutes);
@@ -65,8 +63,7 @@ app.use("/api", subscriberRouter);
 
 
 
-// module.exports = app;
+module.exports = app;
 
-app.listen(PORT, ()=>{
-    console.log(`Server is running on port ${PORT}`)
-})
+
+
