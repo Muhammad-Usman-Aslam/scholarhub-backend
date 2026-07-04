@@ -16,7 +16,7 @@ const subscriberRouter = require("./router/subscriberRouter");
 app.use(express.json());
 app.use(cors());
 
-MongoDB Connection
+// MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI?.trim();
 let isConnected = false;
 
