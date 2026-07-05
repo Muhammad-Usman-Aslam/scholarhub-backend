@@ -2,18 +2,48 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const app = express();
+app.use(cookieParser());
 
-// Routes
-const blogRoutes = require("./router/blogRoutes");
-const govtRouter = require("./router/GovtRouter");
+// ENV
+const MONGO_URI = process.env.MONGO_URI;
+const PORT = process.env.PORT || 5000;
+
+// ROUTES (FIXED PATH HERE)
+const blogRoutes = require("./router/blogRoutes");   // ✅ FIXED
 const contactRoutes = require("./router/ContactRouter");
 const subscriberRouter = require("./router/subscriberRouter");
 
-// Middleware
+// MIDDLEWARE
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
+// TEST ROUTE (VERY IMPORTANT FOR DEBUGGING)
+app.get("/api/test", (req, res) => {
+  res.send("API WORKING");
+});
+
+// COOKIE EXAMPLE
+app.get("/api/set-cookie", (req, res) => {
+  res.cookie("scholarhub_user", "logged-in", {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: "lax",
+  });
+
+  res.json({ message: "Cookie set successfully" });
+});
+
+app.get("/api/get-cookie", (req, res) => {
+  res.json({ cookie: req.cookies.scholarhub_user || null });
+});
 
 // MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI?.trim();
@@ -53,9 +83,9 @@ app.use(async (req, res, next) => {
     }
 });
 
-// Routes
+
+// ROUTES
 app.use("/api", blogRoutes);
-app.use("/api-govt", govtRouter);
 app.use("/api", contactRoutes);
 app.use("/api", subscriberRouter);
 
