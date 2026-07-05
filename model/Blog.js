@@ -14,9 +14,11 @@ const blogSchema = new mongoose.Schema({
     city: {
         type: String,
         
+
     },
     post:{
         type: String,
+
     },
 
     category: {

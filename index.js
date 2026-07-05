@@ -2,17 +2,25 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+
 const cookieParser = require("cookie-parser");
+
+const PORT =process.env.PORT
+
 
 const app = express();
 app.use(cookieParser());
 
-// ENV
+
 const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 
 // ROUTES (FIXED PATH HERE)
-const blogRoutes = require("./router/blogRoutes");   // ✅ FIXED
+const blogRoutes = require("./router/blogRoutes"); 
+
+// Routes
+const blogRoutes = require("./router/blogRoutes");
+
 const contactRoutes = require("./router/ContactRouter");
 const subscriberRouter = require("./router/subscriberRouter");
 
@@ -84,9 +92,12 @@ app.use(async (req, res, next) => {
 });
 
 
-// ROUTES
+
 app.use("/api", blogRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", subscriberRouter);
 
+
+
 module.exports = app;
+

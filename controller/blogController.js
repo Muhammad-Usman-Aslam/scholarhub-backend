@@ -3,9 +3,7 @@ const BlogModel = require("../model/Blog");
 const Subscriber = require("../model/subscriberModel");
 const sendEmail = require("../config/email");
 
-// =========================
-// HTML ESCAPE
-// =========================
+
 const escapeHtml = (value = "") =>
   String(value)
     .replace(/&/g, "&amp;")
@@ -14,9 +12,7 @@ const escapeHtml = (value = "") =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-// =========================
-// EMAIL NOTIFICATIONS
-// =========================
+
 const sendNewBlogNotifications = async (blog) => {
   const subscribers = await Subscriber.find().select("email");
 
@@ -71,9 +67,7 @@ const sendNewBlogNotifications = async (blog) => {
   });
 };
 
-// =========================
-// ADD BLOG
-// =========================
+
 const blogAddData = async (req, res) => {
   try {
     const {
@@ -127,9 +121,7 @@ const blogAddData = async (req, res) => {
   }
 };
 
-// =========================
-// GET ALL BLOGS (FIXED)
-// =========================
+
 const blogGetData = async (req, res) => {
   try {
     let { category, excludeId } = req.query;
@@ -156,9 +148,7 @@ const blogGetData = async (req, res) => {
   }
 };
 
-// =========================
-// GET BLOG PHOTO
-// =========================
+
 const blogGetPhoto = async (req, res) => {
   const { id } = req.params;
 
@@ -182,9 +172,9 @@ const blogGetPhoto = async (req, res) => {
   }
 };
 
-// =========================
-// GET SINGLE BLOG
-// =========================
+
+// Get Single Blog
+
 const getSingleBlog = async (req, res) => {
   try {
     const blog = await BlogModel.findById(req.params.id).select("-photo");
@@ -205,9 +195,8 @@ const getSingleBlog = async (req, res) => {
   }
 };
 
-// =========================
-// SEARCH BLOGS
-// =========================
+// Search Blogs
+
 const searchBlogs = async (req, res) => {
   try {
     const keyword = req.query.keyword?.trim();
@@ -239,9 +228,9 @@ const searchBlogs = async (req, res) => {
   }
 };
 
-// =========================
+
 // EXPORTS
-// =========================
+
 module.exports = {
   blogAddData,
   blogGetData,
